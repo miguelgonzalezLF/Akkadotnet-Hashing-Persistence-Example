@@ -1,6 +1,5 @@
 using System;
 using Akka.Actor;
-using Akka.Routing;
 using IEP.Shared.Commands;
 
 namespace IEP.Shared.Actors
@@ -9,10 +8,13 @@ namespace IEP.Shared.Actors
     {
         public RemoteJobActor()
         {
-            Receive<IStartJob>(startJob =>
+            Receive<IStartJob>(message =>
             {
-                //Console.WriteLine("RemoteJobActor HashCode: {0}", Self.GetHashCode());
-                Context.ActorSelection("/user/api").Tell(startJob, Sender);
+//                Context.ActorSelection("/user/api").Tell(startJob, Sender);
+                Console.BackgroundColor = message.Job.Color;
+                Console.WriteLine("FileName: {0}, change: {1} hashcode: {2}", message.Job.FileName, message.Job.Change, Self.GetHashCode());
+                Console.ResetColor();
+                Sender.Tell(new JobConfirmation(message.DeliveryId, message.Job.Color));
             });
         }
 

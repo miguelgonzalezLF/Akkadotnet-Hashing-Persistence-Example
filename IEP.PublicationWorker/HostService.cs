@@ -1,6 +1,4 @@
 using Akka.Actor;
-using Akka.Routing;
-using IEP.PublicationWorker.Actors;
 using Topshelf;
 
 namespace IEP.PublicationWorker
@@ -12,7 +10,7 @@ namespace IEP.PublicationWorker
         public bool Start(HostControl hostControl)
         {
             ClusterSystem = ActorSystem.Create("sys");
-            ClusterSystem.ActorOf(Props.Create(() => new ApiMaster()).WithRouter(FromConfig.Instance), "api");
+//            ClusterSystem.ActorOf(Props.Create(() => new ApiMaster()).WithRouter(FromConfig.Instance), "api");
             return true;
         }
 
